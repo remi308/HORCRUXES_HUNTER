@@ -17,3 +17,5 @@ add_executable(HORCRUXES_HUNTER
         graphique.c
         graphique.h
 )
+
+target_link_libraries(${PROJECT_NAME} mingw32 alleg44)
