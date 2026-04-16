@@ -1,70 +1,41 @@
-//
-// Created by remi on 30/03/2026.
-//
-
-#include <stdio.h>
-
+#include <allegro.h>
+#include <stdbool.h>
+#include "input.h"
 #include "player.h"
 
-void initPlayer(Player *p, float zoneX, float zoneY, float zoneW, float zoneH)
-{
-    p->largeur = zoneW * 0.06f;
-    p->hauteur = zoneH * 0.10f;
-    p->x = zoneX + (zoneW - p->largeur) / 2.0f;
-    p->y = zoneY + zoneH - p->hauteur - 10.0f;
-    p->vitesse = zoneW * 0.6f;
-    p->vivant = 1;
-    p->direction = 0;
-}
+int main(void) {
+    Player player;
+    InputState inputs;
 
-void updatePlayer(Player *p, int moveLeft, int moveRight, float dt,
-                  float zoneX, float zoneW)
-{
-    if (!p->vivant)
-        return;
+    allegro_init();
+    install_keyboard();
 
-    if (moveLeft && !moveRight)
-    {
-        p->x -= p->vitesse * dt;
-        p->direction = -1;
-    }
-    else if (moveRight && !moveLeft)
-    {
-        p->x += p->vitesse * dt;
-        p->direction = 1;
-    }
-    else
-    {
-        p->direction = 0;
+    set_color_depth(32);
+    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, 800, 600, 0, 0) != 0) {
+        allegro_message("Erreur mode graphique");
+        return 1;
     }
 
-    if (p->x < zoneX)
-        p->x = zoneX;
+    input_init();
+     player_init(&player);
 
-    if (p->x + p->largeur > zoneX + zoneW)
-        p->x = zoneX + zoneW - p->largeur;
-}
+    while (!inputs.quit) {
+        input_update(&inputs);
+        player_update(&player, &inputs);
 
-void killPlayer(Player *p)
-{
-    p->vivant = 0;
-}
+        clear_to_color(screen, makecol(0, 0, 0));
 
-int playerIsAlive(const Player *p)
-{
-    return p->vivant;
-}
+        rectfill(screen,
+                 (int)(player.x - 20),
+                 (int)(player.y - 15),
+                 (int)(player.x + 20),
+                 (int)(player.y + 15),
+                 makecol(255, 255, 255));
 
-float playerCenterX(const Player *p)
-{
-    return p->x + p->largeur / 2.0f;
-}
+        rest(16);
+    }
 
-float playerTopY(const Player *p)
-{
-    return p->y;
-}
-int main() {
-    printf("Pret a chasser des horcruxes !\n");
+    input_cleanup();
     return 0;
 }
+END_OF_MAIN();
