@@ -7,12 +7,12 @@
 typedef struct {
     float x;
     float y;
-    float speed;
+    float vitesse;
     bool actif;
 } Tir;
 
 void tir_init(Tir* tir);
-void tir_lancer(Tir* tir, float start_x, float start_y);
+void tir_lancer(Tir* tir, float x, float y);
 void tir_update(Tir* tir);
 void tir_draw(const Tir* tir, BITMAP* buffer);
 

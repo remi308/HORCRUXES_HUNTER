@@ -6,7 +6,7 @@
 
 int main(void) {
     Player player;
-    InputState inputs;
+    InputState inputs = {false, false, false, false, false};
     Tir tir;
     BITMAP* buffer;
 
@@ -28,8 +28,6 @@ int main(void) {
     input_init();
     player_init(&player);
     tir_init(&tir);
-
-    inputs.quit = false;
 
     while (!inputs.quit) {
         float tir_x, tir_y;
