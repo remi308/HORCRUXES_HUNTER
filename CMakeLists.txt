@@ -12,6 +12,8 @@ add_executable(HORCRUXES_HUNTER
         menu.c
         entites.c
         save.c
-        player.c)
+        player.c
+        tir.c
+)
 
 target_link_libraries(${PROJECT_NAME} -lmingw32 -lalleg44)

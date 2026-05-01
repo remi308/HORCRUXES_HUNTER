@@ -2,10 +2,13 @@
 #include <stdbool.h>
 #include "input.h"
 #include "player.h"
+#include "tir.h"
 
 int main(void) {
     Player player;
     InputState inputs;
+    Tir tir;
+    BITMAP* buffer;
 
     allegro_init();
     install_keyboard();
@@ -16,25 +19,48 @@ int main(void) {
         return 1;
     }
 
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    if (!buffer) {
+        allegro_message("Erreur creation buffer");
+        return 1;
+    }
+
     input_init();
-     player_init(&player);
+    player_init(&player);
+    tir_init(&tir);
+
+    inputs.quit = false;
 
     while (!inputs.quit) {
+        float tir_x, tir_y;
+
         input_update(&inputs);
         player_update(&player, &inputs);
 
-        clear_to_color(screen, makecol(0, 0, 0));
+        if (inputs.shoot && !tir.actif) {
+            player_get_tir_position(&player, &tir_x, &tir_y);
+            tir_lancer(&tir, tir_x, tir_y);
+        }
 
-        rectfill(screen,
+        tir_update(&tir);
+
+        clear_to_color(buffer, makecol(0, 0, 0));
+
+        rectfill(buffer,
                  (int)(player.x - 20),
                  (int)(player.y - 15),
                  (int)(player.x + 20),
                  (int)(player.y + 15),
                  makecol(255, 255, 255));
 
+        tir_draw(&tir, buffer);
+
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+
         rest(16);
     }
 
+    destroy_bitmap(buffer);
     input_cleanup();
     return 0;
 }

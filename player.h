@@ -8,10 +8,10 @@ typedef struct {
     float x;
     float y;
     bool alive;
-    bool can_shoot;
 } Player;
 
 void player_init(Player* player);
 void player_update(Player* player, const InputState* inputs);
+void player_get_tir_position(const Player* player, float* x, float* y);
 
 #endif
