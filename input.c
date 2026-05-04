@@ -10,6 +10,8 @@ void input_update(InputState* state) {
     state->shoot = key[KEY_ENTER];
     state->pause = key[KEY_P];
     state->quit  = key[KEY_ESC];
+    state->save  = key[KEY_S];
+    state->load  = key[KEY_L];
 }
 
 void input_cleanup(void) {

@@ -9,6 +9,8 @@ typedef struct {
     bool shoot;
     bool pause;
     bool quit;
+    bool save;
+    bool load;
 } InputState;
 
 void input_init(void);

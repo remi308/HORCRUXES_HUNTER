@@ -3,12 +3,15 @@
 #include "input.h"
 #include "player.h"
 #include "tir.h"
+#include "save.h"
 
 int main(void) {
     Player player;
-    InputState inputs = {false, false, false, false, false};
+    InputState inputs = {false, false, false, false, false, false, false};
     Tir tir;
     BITMAP* buffer;
+    bool save_prev = false;
+    bool load_prev = false;
 
     allegro_init();
     install_keyboard();
@@ -33,6 +36,17 @@ int main(void) {
         float tir_x, tir_y;
 
         input_update(&inputs);
+
+        if (inputs.save && !save_prev) {
+            save_partie(&player, &tir);
+        }
+        save_prev = inputs.save;
+
+        if (inputs.load && !load_prev) {
+            charger_partie(&player, &tir);
+        }
+        load_prev = inputs.load;
+
         player_update(&player, &inputs);
 
         if (inputs.shoot && !tir.actif) {
