@@ -14,6 +14,10 @@ add_executable(HORCRUXES_HUNTER
         save.c
         player.c
         tir.c
+        defaite.c
+        defaite.h
+        success.c
+        success.h
 )
 
 target_link_libraries(${PROJECT_NAME} -lmingw32 -lalleg44)

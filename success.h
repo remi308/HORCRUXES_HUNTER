@@ -1,0 +1,8 @@
+//
+// Created by yacin on 06/05/2026.
+//
+
+#ifndef HORCRUXES_HUNTER_SUCCESS_H
+#define HORCRUXES_HUNTER_SUCCESS_H
+
+#endif //HORCRUXES_HUNTER_SUCCESS_H
